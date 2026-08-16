@@ -93,7 +93,11 @@ class ProspectScore(BaseModel):
     rubric_breakdown: RubricBreakdown
 
 
-_scoring_llm = ChatOpenAI(model=MODEL_NAME, temperature=0).with_structured_output(ProspectScore)
+_scoring_llm = ChatOpenAI(
+    model=MODEL_NAME,
+    temperature=0,
+    metadata={"ls_provider": "openai", "ls_model_name": MODEL_NAME},
+).with_structured_output(ProspectScore)
 
 
 def _offering_has_required_fields(offering):
@@ -195,7 +199,11 @@ SYSTEM_PROMPT = (
     "rep asked for every time."
 )
 
-agent_model = ChatOpenAI(model=MODEL_NAME, temperature=0)
+agent_model = ChatOpenAI(
+    model=MODEL_NAME,
+    temperature=0,
+    metadata={"ls_provider": "openai", "ls_model_name": MODEL_NAME},
+)
 
 gtm_agent = create_deep_agent(
     model=agent_model,
